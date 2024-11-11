@@ -1,7 +1,11 @@
-from ninja import NinjaAPI
-from polls.models import Choice, Question, Game, Player
-from polls.schemas import ChoiceSchema, QuestionSchema, AddQuestionSchema, PlayerSchema, GameSchema, AddGameSchema
+from random import shuffle
+
 from django.utils import timezone
+from ninja import NinjaAPI
+from polls.models import Choice, Game, Player, Question
+from polls.schemas import (AddGameSchema, AddQuestionSchema, ChoiceSchema,
+                           GameSchema, PatchPlayerSchma, PlayerSchema,
+                           QuestionSchema)
 
 api = NinjaAPI()
 
@@ -36,9 +40,13 @@ def start_game(request, add_game: AddGameSchema):
         name=add_game.name
     )
 
-    for player in add_game.players:
+    order_list = list(range(1, len(add_game.players) + 1))
+    shuffle(order_list)
+
+    for player, order in zip(add_game.players, order_list):
         Player.objects.create(
             name=player,
+            order=order,
             game=game
         )
 
@@ -47,3 +55,17 @@ def start_game(request, add_game: AddGameSchema):
 @api.get("/game/{game_id}", response=GameSchema)
 def get_game(request, game_id: int):
     return Game.objects.get(pk=game_id)
+
+
+# --- PLAYER ---
+@api.get("/player/{player_id}", response=PlayerSchema)
+def get_player(request, player_id: int):
+    return Player.objects.get(pk=player_id)
+
+@api.patch("/player/{player_id}", response=PlayerSchema)
+def patch_player(request, player_id: int, data: PatchPlayerSchma):
+    player = Player.objects.get(pk=player_id)    
+    Player.objects.filter(pk=player_id).update(**{"score": data.score})
+
+    return player
+
