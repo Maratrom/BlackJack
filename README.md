@@ -1,10 +1,10 @@
 # BlackJack
 
-# Installation
+## Installation
 
-## Note : remplacer pnpm par npm si vous n'avez que npm
+### Note : remplacer pnpm par npm si vous n'avez que npm
 
-## Prérequis : **python**, **pnpm** (ou npm)
+### Prérequis : **python**, **pnpm** (ou npm)
 
 Aller dans le dossier pour installer le projet et y ouvrir un terminal et faire :
 
@@ -19,7 +19,7 @@ Dans un autre terminal, aller dans **BlackJack/Frontend** :
 
 - `pnpm install`
 
-# Lancer le back
+## Lancer le back
 
 Depuis la racine du git **BlackJack/** :
 
@@ -27,7 +27,7 @@ Depuis la racine du git **BlackJack/** :
 - `..\..\.venv\Scripts\activate`
   - `py manage.py runserver`
 
-# Lancer le front
+## Lancer le front
 
 Depuis la racine du git **BlackJack/**:
 
