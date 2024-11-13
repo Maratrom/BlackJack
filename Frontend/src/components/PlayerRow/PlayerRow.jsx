@@ -3,7 +3,7 @@ import './PlayerRow.css'
 
 export default function PlayerRow({ player, turn }) {
     return (
-        <tr className={`row${turn === player.order ? " selected" : ""}`}>
+        <tr className={`row${turn === player.order - 1 ? " selected" : ""}`}>
             {/* <td className='pp'><img src={player.pp ?? random} className=""/></td> */}
             <th className='id'>{player.id}</th>
             <td className='name'>{player.name}</td>

@@ -1,4 +1,8 @@
 .player-table {
     box-shadow: #f00 0 0 18px;
-    outline: #fff solid 1px
+    border: #fff solid 1px;
+
+    td, th {
+        outline: #fff solid 1px;
+    }
 }

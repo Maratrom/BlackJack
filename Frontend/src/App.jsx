@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 
 import { Route, Routes, NavLink } from 'react-router-dom';
 import Home from './Views/Home/Home';
@@ -10,8 +10,10 @@ function App() {
 
   return (
     <>
-    <button><NavLink to="/create_game">Créer une partie</NavLink></button>
-    <button><NavLink to="/">Home</NavLink></button> 
+    <div className='nav'>
+      <NavLink to="/create_game"><button>Créer une partie</button></NavLink>
+      <NavLink to="/"><button>Home</button></NavLink> 
+    </div>
     
       <Routes>
         <Route path='/' element={<Home />} />

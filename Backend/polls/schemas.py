@@ -1,29 +1,18 @@
 from ninja import ModelSchema, Schema
-from polls.models import Choice, Game, Player, Question
+from polls.models import  Game, Player
 
-
-class ChoiceSchema(ModelSchema):
-    class Meta:
-        model = Choice
-        fields = ["id", "choice_text", "votes"]
-
-class QuestionSchema(ModelSchema):
-    class Meta:
-        model = Question
-        fields = ["id", "question_text", "pub_date"]
-
-    choices: list[ChoiceSchema]
-
-class AddQuestionSchema(Schema):
-    question_text: str
-    choices: list[str]
-
-
+# --- PLAYER ---
 class PlayerSchema(ModelSchema):
     class Meta:
         model = Player
         fields = ["id", "name", "score", "order"]
 
+class PatchPlayerSchema(Schema):
+    name: str | None = None
+    score: int | None = None
+    order: int | None = None
+
+# --- GAME ---
 class GameSchema(ModelSchema):
     class Meta:
         model = Game
@@ -35,8 +24,7 @@ class AddGameSchema(Schema):
     name: str
     players: list[str]
 
-class PatchPlayerSchma(Schema):
+class PatchGameSchema(Schema):
     name: str | None = None
-    score: int | None = None
-    order: int | None = None
-
+    turn: int | None = None
+    ended: bool | None = None

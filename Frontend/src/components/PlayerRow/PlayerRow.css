@@ -1,5 +1,5 @@
 .row {
-    outline: #fff solid 1px;
+    /* outline: #fff solid 1px; */
 
     &.selected {
         background: red;

@@ -4,13 +4,6 @@ import './PlayerTable.css'
 import PlayerRow from '../PlayerRow/PlayerRow'
 
 export default function PlayerTable({ players, turn }) {
-    const [template, setTemplate] = useState([]);
-
-    for (const player in players) {
-        template.push(<PlayerRow key={player.id} player={player} />);
-    }
-
-
     return (
         <>
             <table className="player-table">
@@ -24,7 +17,7 @@ export default function PlayerTable({ players, turn }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {players.sort((p1, p2) => p1.order - p2.order).map((player) => (
+                    {players.map((player) => (
                         <PlayerRow player={player} key={player.order} turn={turn}/>
                     ))}
                 </tbody>

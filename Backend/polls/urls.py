@@ -2,36 +2,11 @@ from random import shuffle
 
 from django.utils import timezone
 from ninja import NinjaAPI
-from polls.models import Choice, Game, Player, Question
-from polls.schemas import (AddGameSchema, AddQuestionSchema, ChoiceSchema,
-                           GameSchema, PatchPlayerSchma, PlayerSchema,
-                           QuestionSchema)
+from polls.models import Game, Player
+from polls.schemas import (AddGameSchema, GameSchema, PatchGameSchema,
+                           PatchPlayerSchema, PlayerSchema)
 
 api = NinjaAPI()
-
-# --- QUESTION ---
-@api.post("/create_question/", response=QuestionSchema)
-def add_question(request, add_question: AddQuestionSchema):
-    question = Question.objects.create(
-        question_text=add_question.question_text,
-        pub_date=timezone.now()
-        )
-
-    for choice in add_question.choices:
-        Choice.objects.create(
-            choice_text=choice,
-            question=question
-        )
-
-    return question
-
-@api.get("/question/{question_id}", response=QuestionSchema)
-def get_question(request, question_id: int):
-    return Question.objects.get(pk=question_id)
-
-@api.delete("/delete_question/{question_id}", response=None)
-def delete_question(request, question_id: int):
-    Question.objects.delete(pk=question_id)
 
 # --- GAME ---
 @api.post("/start_game/", response=GameSchema)
@@ -54,7 +29,31 @@ def start_game(request, add_game: AddGameSchema):
 
 @api.get("/game/{game_id}", response=GameSchema)
 def get_game(request, game_id: int):
-    return Game.objects.get(pk=game_id)
+    game = Game.objects.get(pk=game_id)
+    players = game.players.order_by('order')
+    return {
+        "id": game.id,
+        "name": game.name,
+        "turn": game.turn,
+        "ended": game.ended,
+        "players": players,
+    }
+
+@api.patch("/game/{game_id}", response=GameSchema)
+def patch_game(request, game_id: int, data: PatchGameSchema):
+    game = Game.objects.filter(pk=game_id)
+
+    if data.name is not None:    
+        game.update(**{"name": data.name})
+
+    if data.turn is not None:    
+        game.update(**{"turn": data.turn})
+
+    if data.ended is not None:    
+        game.update(**{"ended": data.ended})
+
+    return get_game(None, game_id)
+
 
 
 # --- PLAYER ---
@@ -63,9 +62,17 @@ def get_player(request, player_id: int):
     return Player.objects.get(pk=player_id)
 
 @api.patch("/player/{player_id}", response=PlayerSchema)
-def patch_player(request, player_id: int, data: PatchPlayerSchma):
-    player = Player.objects.get(pk=player_id)    
-    Player.objects.filter(pk=player_id).update(**{"score": data.score})
+def patch_player(request, player_id: int, data: PatchPlayerSchema):
+    player = Player.objects.filter(pk=player_id)
 
-    return player
+    if data.name is not None:    
+        player.update(**{"name": data.name})
+
+    if data.score is not None:    
+        player.update(**{"score": data.score})
+
+    if data.order is not None:    
+        player.update(**{"order": data.order})    
+
+    return player[0]
 
