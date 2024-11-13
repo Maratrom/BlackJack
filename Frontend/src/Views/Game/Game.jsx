@@ -122,14 +122,13 @@ export default function Game() {
                     <h2>Best score : {bestScore}</h2>
                     <button onClick={() => throwDices()} disabled={game.ended || !animeEnded}>Throw dices</button>
                     <button onClick={() => endTurn()} disabled={game.ended || !animeEnded}>End Turn</button>
-                    <div hidden={!game.ended} className='end'>
+                    <div hidden={!game.ended}>
                         <h1>Game finished !</h1>
                         <p>Winners are :</p>
-                        {game.players.filter(player => player.score == bestScore).map(player => <p>{player.name}</p>)}
+                        {game.players.filter(player => player.score === bestScore).map(player => <p key={player.id}>{player.name}</p>)}
                     </div>
-                    {/* <span>Result: </span><span hidden={!anime}>{result}</span> */}
                     <div className='playground'>
-                        <img src={dices[result]} className={`throw `}/>                  
+                        <img src={dices[result]} className={`throw`}/>                  
                         <PlayerTable players={game.players} turn={game.turn}/>
                     </div>
                 </div>

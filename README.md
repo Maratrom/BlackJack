@@ -4,14 +4,12 @@ Note : remplacer pnpm par npm si vous n'avez que npm
 
 Aller dans le dossier pour installer le projet et y ouvrir un terminal et faire :
 
-- pip install venv
+- pip install virtualenv
 - py -m venv .venv
-- git clone [URL]
+- git clone https://github.com/Maratrom/BlackJack.git
 - .venv\Scripts\activate
   - py -m pip install --upgrade pip
-  - pip intall Django
-  - pip install django-cors-headers
-  - pip install django-ninja
+  - pip install Django django-cors-headers django-ninja
 
 Dans un autre terminal, aller dans BlackJack/Frontend :
 
